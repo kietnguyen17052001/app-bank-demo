@@ -3,6 +3,7 @@ package Bank.BusinessLogicLayer;
 import Bank.DataAccessLayer.DataAccessLogin;
 import java.security.*;
 import java.sql.SQLException;
+import java.util.List;
 
 public class BusinessLayerLogin {
 	private static BusinessLayerLogin _instance;
@@ -50,14 +51,35 @@ public class BusinessLayerLogin {
 	public void changePassword(String creditCardID, String newPassword) throws SQLException, NoSuchAlgorithmException {
 		DataAccessLogin.getInstance().changePassword(creditCardID, encrypt(newPassword));
 	}
-	
+
 	// account number
 	public String accountNumber(String username, String password_pin) throws SQLException, NoSuchAlgorithmException {
 		return DataAccessLogin.getInstance().accountNumber(username, encrypt(password_pin));
 	}
-	
+
+	// account name
+	public String accountName(String accountNumber) throws SQLException {
+		return DataAccessLogin.getInstance().accountName(accountNumber);
+	}
+
 	// balance
 	public float balance(String accountNumber) throws SQLException {
 		return DataAccessLogin.getInstance().balance(accountNumber);
+	}
+
+	// list bank
+	public List<String> listBank() throws SQLException {
+		return DataAccessLogin.getInstance().listBank();
+	}
+
+	// get recipient account name by account number
+	public String recipientAccountName(String recipientAccountNumber, String bank) throws SQLException {
+		return DataAccessLogin.getInstance().recipientAccountName(recipientAccountNumber, bank);
+	}
+
+	// confirm tranfer
+	public void confirmTransfer(String accountNumber, String recipientAccountNumber, float amount, float balance,
+			String content) throws SQLException {
+		DataAccessLogin.getInstance().confirmTransfer(accountNumber, recipientAccountNumber, amount, balance, content);
 	}
 }

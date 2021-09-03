@@ -1,9 +1,13 @@
 package Bank.DataAccessLayer;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataAccessLogin {
 	private static DataAccessLogin _instance;
@@ -68,11 +72,93 @@ public class DataAccessLogin {
 		ResultSet rSet = stmt.executeQuery(query);
 		return (rSet.next()) ? rSet.getString("AccountNumber") : null;
 	}
-	
+
+	// account name
+	public String accountName(String accountNumber) throws SQLException {
+		String query = "Select * from Account where AccountNumber = '" + accountNumber + "'";
+		ResultSet rSet = stmt.executeQuery(query);
+		return (rSet.next()) ? rSet.getString("AccountName") : null;
+	}
+
 	// balance
 	public float balance(String accountNumber) throws SQLException {
-		String query = "Select * from Account where AccountNumber = '"+accountNumber+"'";
+		String query = "Select * from Account where AccountNumber = '" + accountNumber + "'";
 		ResultSet rSet = stmt.executeQuery(query);
 		return (rSet.next()) ? rSet.getFloat("Balance") : 0;
+	}
+
+	// list bank
+	public List<String> listBank() throws SQLException {
+		List<String> list = new ArrayList<>();
+		String query = "Select distinct Account.Bank from Account";
+		ResultSet rSet = stmt.executeQuery(query);
+		while (rSet.next()) {
+			list.add(rSet.getString("Bank"));
+		}
+		return list;
+	}
+
+	// get recipient account name by account number
+	public String recipientAccountName(String recipientAccountNumber, String bank) throws SQLException {
+		String query = (bank == null)
+				? "Select Account.AccountName from Account where AccountNumber = '" + recipientAccountNumber + "'"
+				: "Select Account.AccountName from Account where AccountNumber = '" + recipientAccountNumber
+						+ "' and Bank = '" + bank + "'";
+		ResultSet rSet = stmt.executeQuery(query);
+		return (rSet.next()) ? rSet.getString("AccountName") : null;
+	}
+
+	// credit card id
+	public int creditCardID(String accountNumber) throws SQLException {
+		String query = "Select * from Account where AccountNumber = '" + accountNumber + "'";
+		ResultSet rSet = stmt.executeQuery(query);
+		return (rSet.next()) ? rSet.getInt("CreditCardID") : 0;
+	}
+
+	// balance after transfer
+	public void updateBalance(boolean isTransfer, String accountNumber, float amount) throws SQLException {
+		String query = (isTransfer)
+				? "Update Account set Balance = '" + (balance(accountNumber) - amount) + "' where AccountNumber = '"
+						+ accountNumber + "'"
+				: "Update Account set Balance = '" + (balance(accountNumber) + amount) + "' where AccountNumber = '"
+						+ accountNumber + "'";
+		stmt.executeUpdate(query);
+	}
+
+	// confirm transfer
+	public void confirmTransfer(String accountNumber, String recipientAccountNumber, float amount, float balance,
+			String content) throws SQLException {
+		int creditCardID = creditCardID(accountNumber);
+		int tradingCreditCardID = creditCardID(recipientAccountNumber);
+		LocalDateTime dateTime = LocalDateTime.now();
+		String recipientAccountName = recipientAccountName(recipientAccountNumber, null);
+		String query = "Insert into DetailAccount values (?,?,?,?,?,?,?,?,?,?)";
+		updateBalance(true, accountNumber, amount);
+		PreparedStatement pStmtSender = connect.prepareStatement(query);
+		pStmtSender.setInt(1, creditCardID);
+		pStmtSender.setString(2, "Transfer");
+		pStmtSender.setObject(3, dateTime);
+		pStmtSender.setFloat(4, amount);
+		pStmtSender.setFloat(5, balance(accountNumber));
+		pStmtSender.setString(6, "Java");
+		pStmtSender.setInt(7, tradingCreditCardID);
+		pStmtSender.setString(8, recipientAccountNumber);
+		pStmtSender.setString(9, recipientAccountName);
+		pStmtSender.setString(10, content);
+		pStmtSender.executeUpdate();
+		updateBalance(false, recipientAccountNumber, amount);
+		PreparedStatement pStmtReceiver = connect.prepareStatement(query);
+		pStmtReceiver.setInt(1, tradingCreditCardID);
+		pStmtReceiver.setString(2, "Receive");
+		pStmtReceiver.setObject(3, dateTime);
+		pStmtReceiver.setFloat(4, amount);
+		pStmtReceiver.setFloat(5, balance(recipientAccountNumber));
+		pStmtReceiver.setString(6, "Java");
+		pStmtReceiver.setInt(7, creditCardID);
+		pStmtReceiver.setString(8, accountNumber);
+		pStmtReceiver.setString(9, accountName(accountNumber));
+		pStmtReceiver.setString(10, content);
+		pStmtReceiver.executeUpdate();
+		
 	}
 }
