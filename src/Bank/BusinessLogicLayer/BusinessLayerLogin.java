@@ -2,9 +2,12 @@ package Bank.BusinessLogicLayer;
 
 import Bank.DataAccessLayer.DataAccessLogin;
 import Bank.Objects.Account;
+import Bank.Objects.DetailAccount;
 
 import java.security.*;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class BusinessLayerLogin {
@@ -98,5 +101,25 @@ public class BusinessLayerLogin {
 	public void confirmTransfer(String accountNumber, String recipientAccountNumber, float amount, float balance,
 			String content) throws SQLException {
 		DataAccessLogin.getInstance().confirmTransfer(accountNumber, recipientAccountNumber, amount, balance, content);
+	}
+
+	// data transaction
+	public Object[][] dataTransaction(String accountNumber, Object[] columns) throws SQLException {
+		List<DetailAccount> list = DataAccessLogin.getInstance().dataTransaction(accountNumber);
+		Object[][] data = new Object[list.size()][5];
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		String[] splitDateTime;
+		for (int i = 0; i < list.size(); i++) {
+			splitDateTime = sdf.format(list.get(i).dayTrading).split(" ");
+			data[i][0] = splitDateTime[0];
+			data[i][1] = splitDateTime[1];
+			data[i][2] = (list.get(i).transactionType.equals("Transfer")) ? "-" + list.get(i).transactionAmount
+					: "+" + list.get(i).transactionAmount;
+			data[i][3] = list.get(i).balance; 
+			data[i][4] = (list.get(i).transactionType.equals("Transfer"))
+					? "CHUYEN DEN " + list.get(i).accountNumber + " ND " + list.get(i).transactionContent
+					: "NHAN TU " + list.get(i).accountNumber + " ND " + list.get(i).transactionContent;
+		}
+		return data;
 	}
 }

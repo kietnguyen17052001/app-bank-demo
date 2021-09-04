@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import Bank.Objects.Account;
+import Bank.Objects.DetailAccount;
 
 public class DataAccessLogin {
 	private static DataAccessLogin _instance;
@@ -141,8 +142,9 @@ public class DataAccessLogin {
 		String query = "Select * from Account where AccountNumber = '" + accountNumber + "'";
 		ResultSet rSet = stmt.executeQuery(query);
 		while (rSet.next()) {
-			account = new Account(rSet.getString("AccountName"), rSet.getString("PhoneNumber"), rSet.getString("UserID"),
-					rSet.getString("UserName"), rSet.getString("Bank"), rSet.getDate("DateCreate"));
+			account = new Account(rSet.getString("AccountName"), rSet.getString("PhoneNumber"),
+					rSet.getString("UserID"), rSet.getString("UserName"), rSet.getString("Bank"),
+					rSet.getDate("DateCreate"));
 		}
 		return account;
 	}
@@ -181,5 +183,21 @@ public class DataAccessLogin {
 		pStmtReceiver.setString(9, accountName(accountNumber));
 		pStmtReceiver.setString(10, content);
 		pStmtReceiver.executeUpdate();
+	}
+
+	// data transaction
+	public List<DetailAccount> dataTransaction(String accountNumber) throws SQLException {
+		List<DetailAccount> list = new ArrayList<DetailAccount>();
+		String query = "Select * from DetailAccount where CreditCardID = '" + creditCardID(accountNumber)
+				+ "' order by DayTrading DESC";
+		ResultSet rSet = stmt.executeQuery(query);
+		DetailAccount detailAccount = null;
+		while (rSet.next()) {
+			detailAccount = new DetailAccount(rSet.getInt("CreditCardID"), rSet.getString("TransactionType"),
+					rSet.getObject("DayTrading"), rSet.getFloat("TransactionAmount"), rSet.getFloat("Balance"),
+					rSet.getString("AccountNumber"), rSet.getString("AccountName"), rSet.getString("TransactionContent"));
+			list.add(detailAccount);
+		}
+		return list;
 	}
 }

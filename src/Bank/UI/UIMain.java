@@ -122,6 +122,11 @@ public class UIMain {
 		panelTool.add(btnTransfer);
 
 		JButton btnTransactionHistory = new JButton("");
+		btnTransactionHistory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TransactionHistory.main(null, accountNumber);
+			}
+		});
 		btnTransactionHistory
 				.setIcon(new ImageIcon("D:\\dangkiet@1705\\Source_Kiet\\Java\\Icon\\business-and-finance.png"));
 		btnTransactionHistory.setBackground(new Color(255, 250, 250));
