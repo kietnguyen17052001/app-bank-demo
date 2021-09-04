@@ -50,6 +50,7 @@ public class AccountInformation {
 		AccountInformation.setBounds(100, 100, 450, 252);
 		AccountInformation.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		AccountInformation.getContentPane().setLayout(null);
+		AccountInformation.setLocationRelativeTo(null);
 		
 		JPanel PersonalCustomization = new JPanel();
 		PersonalCustomization.setBackground(new Color(255, 250, 250));

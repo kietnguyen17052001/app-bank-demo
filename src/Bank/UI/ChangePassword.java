@@ -59,6 +59,7 @@ public class ChangePassword {
 		ChangePassword.setBounds(100, 100, 320, 263);
 		ChangePassword.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ChangePassword.getContentPane().setLayout(null);
+		ChangePassword.setLocationRelativeTo(null);
 		
 		JLabel lblNewLabel = new JLabel("Change Password");
 		lblNewLabel.setForeground(new Color(34, 139, 34));

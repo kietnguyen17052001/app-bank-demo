@@ -77,7 +77,8 @@ public class Transfer {
 		Transfer.setBounds(100, 100, 551, 581);
 		Transfer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Transfer.getContentPane().setLayout(null);
-
+		Transfer.setLocationRelativeTo(null);
+		
 		JLabel lblNewLabel = new JLabel("Transfer to account number");
 		lblNewLabel.setForeground(new Color(34, 139, 34));
 		lblNewLabel.setFont(new Font("Fira Code Medium", Font.PLAIN, 15));

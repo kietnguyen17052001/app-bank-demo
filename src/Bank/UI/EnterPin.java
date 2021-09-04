@@ -58,6 +58,7 @@ public class EnterPin {
 		EnterPin.setBounds(100, 100, 379, 204);
 		EnterPin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		EnterPin.getContentPane().setLayout(null);
+		EnterPin.setLocationRelativeTo(null);
 		
 		JLabel lblNewLabel = new JLabel("Enter PIN");
 		lblNewLabel.setForeground(new Color(34, 139, 34));

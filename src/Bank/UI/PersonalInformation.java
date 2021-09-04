@@ -56,7 +56,8 @@ public class PersonalInformation {
 		PersonalInformation.setBounds(100, 100, 360, 525);
 		PersonalInformation.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		PersonalInformation.getContentPane().setLayout(null);
-
+		PersonalInformation.setLocationRelativeTo(null);
+		
 		JLabel lblClose = new JLabel("Close");
 		lblClose.addMouseListener(new MouseAdapter() {
 			@Override

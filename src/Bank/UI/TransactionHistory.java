@@ -69,7 +69,8 @@ public class TransactionHistory {
 		TransactionHistory.setBounds(100, 100, 792, 485);
 		TransactionHistory.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		TransactionHistory.getContentPane().setLayout(null);
-
+		TransactionHistory.setLocationRelativeTo(null);
+		
 		JTextArea textArea = new JTextArea();
 		textArea.setBounds(405, 345, 352, 92);
 		TransactionHistory.getContentPane().add(textArea);

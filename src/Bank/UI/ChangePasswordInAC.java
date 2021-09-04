@@ -61,7 +61,8 @@ public class ChangePasswordInAC {
 		ChangePasswordInAC.setBounds(100, 100, 347, 378);
 		ChangePasswordInAC.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ChangePasswordInAC.getContentPane().setLayout(null);
-
+		ChangePasswordInAC.setLocationRelativeTo(null);
+		
 		JLabel lblClose = new JLabel("Close");
 		lblClose.addMouseListener(new MouseAdapter() {
 			@Override

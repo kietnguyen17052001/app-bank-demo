@@ -62,7 +62,8 @@ public class UILogin {
 		UILogin.setBounds(100, 100, 535, 473);
 		UILogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		UILogin.getContentPane().setLayout(null);
-
+		UILogin.setLocationRelativeTo(null); 
+		
 		JLabel lblNewLabel = new JLabel("Bank Demo");
 		lblNewLabel.setForeground(new Color(0, 128, 0));
 		lblNewLabel.setFont(new Font("Fira Code Medium", Font.PLAIN, 15));

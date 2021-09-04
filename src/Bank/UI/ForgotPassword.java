@@ -58,7 +58,8 @@ public class ForgotPassword {
 		ForgotPassword.setBounds(100, 100, 379, 366);
 		ForgotPassword.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ForgotPassword.getContentPane().setLayout(null);
-
+		ForgotPassword.setLocationRelativeTo(null);
+		
 		JLabel lblNewLabel = new JLabel("Username");
 		lblNewLabel.setForeground(new Color(34, 139, 34));
 		lblNewLabel.setFont(new Font("Fira Code Medium", Font.PLAIN, 13));

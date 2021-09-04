@@ -63,11 +63,12 @@ public class UIMain {
 	 */
 	private void initialize() throws NoSuchAlgorithmException, SQLException {
 		UIMain = new JFrame();
+		UIMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		UIMain.setTitle("Home page");
 		UIMain.setBounds(100, 100, 741, 476);
-		UIMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		UIMain.getContentPane().setLayout(null);
-
+		UIMain.setLocationRelativeTo(null); 
+		
 		JPanel panelAccount = new JPanel();
 		panelAccount.setBackground(new Color(34, 139, 34));
 		panelAccount.setBounds(10, 11, 707, 68);
