@@ -24,12 +24,12 @@ public class ChangePassword {
 	private JLabel lblResult;
 	private JButton btnSave;
 	private JButton btnClose;
-	static String creditCardID;
+	static int creditCardID;
 	String newPassword;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args, String _creditCardID) {
+	public static void main(String[] args, int  _creditCardID) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
