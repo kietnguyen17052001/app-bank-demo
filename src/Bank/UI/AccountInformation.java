@@ -66,7 +66,7 @@ public class AccountInformation {
 		PersionalInformation.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				
+				PersonalInformation.main(null, accountNumber);
 			}
 		});
 		PersionalInformation.setBackground(new Color(248, 248, 255));

@@ -1,6 +1,8 @@
 package Bank.BusinessLogicLayer;
 
 import Bank.DataAccessLayer.DataAccessLogin;
+import Bank.Objects.Account;
+
 import java.security.*;
 import java.sql.SQLException;
 import java.util.List;
@@ -80,6 +82,11 @@ public class BusinessLayerLogin {
 	// credit card ID
 	public int creditCardID(String accountNumber) throws SQLException {
 		return DataAccessLogin.getInstance().creditCardID(accountNumber);
+	}
+
+	// get account
+	public Account getAccount(String accountNumber) throws SQLException {
+		return DataAccessLogin.getInstance().getAccount(accountNumber);
 	}
 
 	// get recipient account name by account number

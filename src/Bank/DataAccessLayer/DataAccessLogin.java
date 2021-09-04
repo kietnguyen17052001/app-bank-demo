@@ -7,7 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import Bank.Objects.Account;
 
 public class DataAccessLogin {
 	private static DataAccessLogin _instance;
@@ -57,19 +60,21 @@ public class DataAccessLogin {
 						+ "' and UserID = '" + userID + "' and CreditCardID = '" + creditCardID + "'");
 		return rSet.next() ? true : false;
 	}
+
 	// get password by account number
 	public String password(String accountNumber) throws SQLException {
-		String query = "Select * from Account where AccountNumber = '"+accountNumber+"'";
+		String query = "Select * from Account where AccountNumber = '" + accountNumber + "'";
 		ResultSet rSet = stmt.executeQuery(query);
 		return (rSet.next()) ? rSet.getString("Password") : null;
 	}
+
 	// change password
 	public void changePassword(int creditCardID, String newPassword) throws SQLException {
 		String queryUpdatePassword = "Update Account set Password = '" + newPassword + "' where CreditCardID = '"
 				+ creditCardID + "'";
 		stmt.executeUpdate(queryUpdatePassword);
 	}
-	
+
 	// account number
 	public String accountNumber(String username, String password_pin) throws SQLException {
 		String query = "Select * from Account where Username = '" + username + "' and  Password = '" + password_pin
@@ -128,6 +133,18 @@ public class DataAccessLogin {
 				: "Update Account set Balance = '" + (balance(accountNumber) + amount) + "' where AccountNumber = '"
 						+ accountNumber + "'";
 		stmt.executeUpdate(query);
+	}
+
+	// get information account
+	public Account getAccount(String accountNumber) throws SQLException {
+		Account account = null;
+		String query = "Select * from Account where AccountNumber = '" + accountNumber + "'";
+		ResultSet rSet = stmt.executeQuery(query);
+		while (rSet.next()) {
+			account = new Account(rSet.getString("AccountName"), rSet.getString("PhoneNumber"), rSet.getString("UserID"),
+					rSet.getString("UserName"), rSet.getString("Bank"), rSet.getDate("DateCreate"));
+		}
+		return account;
 	}
 
 	// confirm transfer
