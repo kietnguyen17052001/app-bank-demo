@@ -260,10 +260,22 @@ public class Transfer {
 		JButton btnContinue = new JButton("Continue");
 		btnContinue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				amount = Float.parseFloat(txtAmount.getText().trim());
-				TransferConfirm.main(null, accountNumber, accountName, balance, recipientAccountNumber,
-						recipientAccountName, amount, comboBox.getSelectedItem().toString(), textArea.getText().trim());
-				Transfer.setVisible(false);
+				try{
+					amount = Float.parseFloat(txtAmount.getText().trim());
+					if(amount > balance) {
+						lblResult.setForeground(Color.red);
+						lblResult.setText("Invalid amount");
+					}
+					else {
+						TransferConfirm.main(null, accountNumber, accountName, balance, recipientAccountNumber,
+								recipientAccountName, amount, comboBox.getSelectedItem().toString(), textArea.getText().trim());
+						Transfer.setVisible(false);
+					}
+				}
+				catch(Exception ex) {
+					lblResult.setForeground(Color.red);
+					lblResult.setText(ex.getMessage());
+				}
 			}
 		});
 		btnContinue.setBackground(new Color(34, 139, 34));
