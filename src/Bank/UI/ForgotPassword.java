@@ -49,7 +49,8 @@ public class ForgotPassword {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	String username, phoneNumber, userID, creditCardID;
+	String username, phoneNumber, userID;
+	int creditCardID;
 
 	private void initialize() {
 		ForgotPassword = new JFrame();
@@ -93,7 +94,7 @@ public class ForgotPassword {
 				username = txtUsername.getText().trim();
 				phoneNumber = txtPhone.getText().trim();
 				userID = txtUserID.getText().trim();
-				creditCardID = txtCreditCardID.getText().trim();
+				creditCardID = Integer.parseInt(txtCreditCardID.getText().trim());
 				try {
 					if (BusinessLayerLogin.getInstance().checkConfirm(username, phoneNumber, userID, creditCardID)) {
 						lblResult.setForeground(Color.blue);

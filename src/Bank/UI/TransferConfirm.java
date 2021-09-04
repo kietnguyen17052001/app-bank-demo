@@ -245,6 +245,8 @@ public class TransferConfirm {
 					BusinessLayerLogin.getInstance().confirmTransfer(accountNumber, recipientAccountNumber, amount,
 							balance, textArea.getText());
 					JOptionPane.showMessageDialog(null, "Transfer successful", null, JOptionPane.INFORMATION_MESSAGE);
+					Transfer.main(null, accountNumber, balance - amount);
+					TransferConfirm.setVisible(false);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(null, "Transfer failed", null, JOptionPane.ERROR_MESSAGE);

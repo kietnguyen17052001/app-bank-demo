@@ -43,12 +43,17 @@ public class BusinessLayerLogin {
 	}
 
 	// check confirm - forgot password
-	public boolean checkConfirm(String username, String phone, String userID, String creditCardID) throws SQLException {
+	public boolean checkConfirm(String username, String phone, String userID, int creditCardID) throws SQLException {
 		return DataAccessLogin.getInstance().checkConfirm(username, phone, userID, creditCardID);
 	}
 
+	// get password
+	public String password(String accountNumber) throws SQLException {
+		return DataAccessLogin.getInstance().password(accountNumber);
+	}
+
 	// change password
-	public void changePassword(String creditCardID, String newPassword) throws SQLException, NoSuchAlgorithmException {
+	public void changePassword(int creditCardID, String newPassword) throws SQLException, NoSuchAlgorithmException {
 		DataAccessLogin.getInstance().changePassword(creditCardID, encrypt(newPassword));
 	}
 
@@ -70,6 +75,11 @@ public class BusinessLayerLogin {
 	// list bank
 	public List<String> listBank() throws SQLException {
 		return DataAccessLogin.getInstance().listBank();
+	}
+
+	// credit card ID
+	public int creditCardID(String accountNumber) throws SQLException {
+		return DataAccessLogin.getInstance().creditCardID(accountNumber);
 	}
 
 	// get recipient account name by account number

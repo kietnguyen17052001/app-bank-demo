@@ -33,6 +33,7 @@ public class UIMain {
 					username = _username;
 					password_pin = _password_pin;
 					accountNumber = BusinessLayerLogin.getInstance().accountNumber(username, password_pin);
+					accountName = BusinessLayerLogin.getInstance().accountName(accountNumber);
 					balance = BusinessLayerLogin.getInstance().balance(accountNumber); 
 					UIMain window = new UIMain();
 					window.UIMain.setVisible(true);
@@ -128,6 +129,11 @@ public class UIMain {
 		panelTool.add(btnTransactionHistory);
 
 		JButton btnAccount = new JButton("");
+		btnAccount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AccountInformation.main(null, accountName, accountNumber);
+			}
+		});
 		btnAccount.setIcon(new ImageIcon("D:\\dangkiet@1705\\Source_Kiet\\Java\\Icon\\bank-account.png"));
 		btnAccount.setBackground(new Color(255, 250, 250));
 		btnAccount.setBounds(389, 11, 56, 48);

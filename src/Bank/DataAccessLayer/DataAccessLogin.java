@@ -49,7 +49,7 @@ public class DataAccessLogin {
 	}
 
 	// check confirm - forgot password
-	public boolean checkConfirm(String username, String phone, String userID, String creditCardID) throws SQLException {
+	public boolean checkConfirm(String username, String phone, String userID, int creditCardID) throws SQLException {
 		if (!username.equals(username.toLowerCase()))
 			return false;
 		ResultSet rSet = stmt
@@ -57,14 +57,19 @@ public class DataAccessLogin {
 						+ "' and UserID = '" + userID + "' and CreditCardID = '" + creditCardID + "'");
 		return rSet.next() ? true : false;
 	}
-
+	// get password by account number
+	public String password(String accountNumber) throws SQLException {
+		String query = "Select * from Account where AccountNumber = '"+accountNumber+"'";
+		ResultSet rSet = stmt.executeQuery(query);
+		return (rSet.next()) ? rSet.getString("Password") : null;
+	}
 	// change password
-	public void changePassword(String creditCardID, String newPassword) throws SQLException {
+	public void changePassword(int creditCardID, String newPassword) throws SQLException {
 		String queryUpdatePassword = "Update Account set Password = '" + newPassword + "' where CreditCardID = '"
 				+ creditCardID + "'";
 		stmt.executeUpdate(queryUpdatePassword);
 	}
-
+	
 	// account number
 	public String accountNumber(String username, String password_pin) throws SQLException {
 		String query = "Select * from Account where Username = '" + username + "' and  Password = '" + password_pin
@@ -159,6 +164,5 @@ public class DataAccessLogin {
 		pStmtReceiver.setString(9, accountName(accountNumber));
 		pStmtReceiver.setString(10, content);
 		pStmtReceiver.executeUpdate();
-		
 	}
 }
