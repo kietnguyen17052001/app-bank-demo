@@ -17,7 +17,7 @@ public class DetailAccount {
 	public String transactionContent;
 
 	public DetailAccount(int creditCardID, int tradingCode, String accountNumberSender, String transactionType, Object dayTrading,
-			float transactionAmount, float balance, String ATM, int tradingCreditCardID, String accountNumberReceiver,
+			float transactionAmount, float balance, String ATM, String accountNumberReceiver,
 			String accountNameReceiver, String transactionContent) {
 		this.creditCardID = creditCardID;
 		this.tradingCode = tradingCode;
