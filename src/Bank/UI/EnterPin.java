@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 
 import Bank.BusinessLogicLayer.BusinessLayerLogin;
+import Bank.Objects.Account;
 
 import java.awt.event.ActionListener;
 import java.security.NoSuchAlgorithmException;
@@ -82,10 +83,11 @@ public class EnterPin {
 			public void actionPerformed(ActionEvent e) {
 				pin = pfPin.getText().trim();
 				try {
-					if (BusinessLayerLogin.getInstance().checkLogin(username, false, pin)) {
+					Account account = BusinessLayerLogin.getInstance().getAccount(username, false, pin);
+					if (account != null) {
 						lbResult.setForeground(Color.blue);
 						lbResult.setText("Login successfully");
-						UIMain.main(null, username, pin);
+						UIMain.main(null, account);
 						EnterPin.setVisible(false);
 					}
 					else {

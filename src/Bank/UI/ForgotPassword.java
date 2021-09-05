@@ -97,12 +97,13 @@ public class ForgotPassword {
 				userID = txtUserID.getText().trim();
 				creditCardID = Integer.parseInt(txtCreditCardID.getText().trim());
 				try {
-					if (BusinessLayerLogin.getInstance().checkConfirm(username, phoneNumber, userID, creditCardID)) {
+					String accountNumber = BusinessLayerLogin.getInstance().accountNumber(username, phoneNumber, userID, creditCardID);
+					if (accountNumber != null) { // exist account
 						lblResult.setForeground(Color.blue);
 						lblResult.setText("Valid informaion");
-						ChangePassword.main(null, creditCardID);
+						ChangePassword.main(null, accountNumber);
 					}
-					else {
+					else { // not exist
 						lblResult.setForeground(Color.red);
 						lblResult.setText("Invalid informaion");
 					}

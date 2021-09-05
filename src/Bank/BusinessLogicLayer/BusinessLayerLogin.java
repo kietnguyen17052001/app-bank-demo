@@ -41,15 +41,20 @@ public class BusinessLayerLogin {
 		return DataAccessLogin.getInstance().checkUsername(username);
 	}
 
-	// check login
-	public boolean checkLogin(String username, boolean byPassword, String password_bin)
+	// get account if account != null when login and use for UIMain
+	public Account getAccount(String username, boolean byPassword, String password_pin)
 			throws SQLException, NoSuchAlgorithmException {
-		return DataAccessLogin.getInstance().checkLogin(username, byPassword, encrypt(password_bin));
+		return DataAccessLogin.getInstance().getAccount(username, byPassword, encrypt(password_pin));
+	}
+
+	// get account by account number
+	public Account getAccountByAccountNumber(String accountNumber) throws SQLException {
+		return DataAccessLogin.getInstance().getAccountByAccountNumber(accountNumber);
 	}
 
 	// check confirm - forgot password
-	public boolean checkConfirm(String username, String phone, String userID, int creditCardID) throws SQLException {
-		return DataAccessLogin.getInstance().checkConfirm(username, phone, userID, creditCardID);
+	public String accountNumber(String username, String phone, String userID, int creditCardID) throws SQLException {
+		return DataAccessLogin.getInstance().accountNumber(username, phone, userID, creditCardID);
 	}
 
 	// get password
@@ -58,8 +63,8 @@ public class BusinessLayerLogin {
 	}
 
 	// change password
-	public void changePassword(int creditCardID, String newPassword) throws SQLException, NoSuchAlgorithmException {
-		DataAccessLogin.getInstance().changePassword(creditCardID, encrypt(newPassword));
+	public void changePassword(String accountNumber, String newPassword) throws SQLException, NoSuchAlgorithmException {
+		DataAccessLogin.getInstance().changePassword(accountNumber, encrypt(newPassword));
 	}
 
 	// account number
@@ -67,29 +72,9 @@ public class BusinessLayerLogin {
 		return DataAccessLogin.getInstance().accountNumber(username, encrypt(password_pin));
 	}
 
-	// account name
-	public String accountName(String accountNumber) throws SQLException {
-		return DataAccessLogin.getInstance().accountName(accountNumber);
-	}
-
-	// balance
-	public float balance(String accountNumber) throws SQLException {
-		return DataAccessLogin.getInstance().balance(accountNumber);
-	}
-
 	// list bank
 	public List<String> listBank() throws SQLException {
 		return DataAccessLogin.getInstance().listBank();
-	}
-
-	// credit card ID
-	public int creditCardID(String accountNumber) throws SQLException {
-		return DataAccessLogin.getInstance().creditCardID(accountNumber);
-	}
-
-	// get account
-	public Account getAccount(String accountNumber) throws SQLException {
-		return DataAccessLogin.getInstance().getAccount(accountNumber);
 	}
 
 	// get recipient account name by account number
@@ -98,13 +83,12 @@ public class BusinessLayerLogin {
 	}
 
 	// confirm tranfer
-	public void confirmTransfer(String accountNumber, String recipientAccountNumber, float amount, float balance,
-			String content) throws SQLException {
-		DataAccessLogin.getInstance().confirmTransfer(accountNumber, recipientAccountNumber, amount, balance, content);
+	public void confirmTransfer(Account sender, Account receiver, float amount, String content) throws SQLException {
+		DataAccessLogin.getInstance().confirmTransfer(sender, receiver, amount, content);
 	}
 
 	// data transaction
-	public Object[][] dataTransaction(String accountNumber, Object[] columns) throws SQLException {
+	public Object[][] dataTransaction(String accountNumber) throws SQLException {
 		List<DetailAccount> list = DataAccessLogin.getInstance().dataTransaction(accountNumber);
 		Object[][] data = new Object[list.size()][5];
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -115,10 +99,10 @@ public class BusinessLayerLogin {
 			data[i][1] = splitDateTime[1];
 			data[i][2] = (list.get(i).transactionType.equals("Transfer")) ? "-" + list.get(i).transactionAmount
 					: "+" + list.get(i).transactionAmount;
-			data[i][3] = list.get(i).balance; 
+			data[i][3] = list.get(i).balance;
 			data[i][4] = (list.get(i).transactionType.equals("Transfer"))
-					? "CHUYEN DEN " + list.get(i).accountNumber + " ND " + list.get(i).transactionContent
-					: "NHAN TU " + list.get(i).accountNumber + " ND " + list.get(i).transactionContent;
+					? "CHUYEN DEN " + list.get(i).accountNumberSecond + " ND " + list.get(i).transactionContent
+					: "NHAN TU " + list.get(i).accountNumberSecond + " ND " + list.get(i).transactionContent;
 		}
 		return data;
 	}

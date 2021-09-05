@@ -8,6 +8,7 @@ import java.awt.BorderLayout;
 import javax.swing.JTextArea;
 
 import Bank.BusinessLogicLayer.BusinessLayerLogin;
+import Bank.Objects.Account;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -25,15 +26,15 @@ public class TransactionHistory {
 	private JFrame TransactionHistory;
 	private JTable tblTransaction;
 	static String accountNumber;
-
+	static Account account;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args, String _accountNumber) {
+	public static void main(String[] args, Account _account) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					accountNumber = _accountNumber;
+					account = _account;
 					TransactionHistory window = new TransactionHistory();
 					window.TransactionHistory.setVisible(true);
 				} catch (Exception e) {
@@ -54,7 +55,7 @@ public class TransactionHistory {
 	Object[] columns = { "Day Trading", "Time", "Amount", "Balance", "Transaction Content" };
 
 	public void showDataTransaction() throws SQLException {
-		Object[][] data = BusinessLayerLogin.getInstance().dataTransaction(accountNumber, columns);
+		Object[][] data = BusinessLayerLogin.getInstance().dataTransaction(account.accountNumber);
 		tblTransaction = new JTable(data, columns);
 		panelTransaction.add(tblTransaction.getTableHeader(), BorderLayout.NORTH);
 		panelTransaction.add(tblTransaction, BorderLayout.CENTER);

@@ -9,6 +9,7 @@ import java.awt.Color;
 import javax.swing.JPasswordField;
 
 import Bank.BusinessLogicLayer.BusinessLayerLogin;
+import Bank.Objects.Account;
 
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
@@ -24,18 +25,17 @@ public class ChangePasswordInAC {
 	private JPasswordField pfOldPassword;
 	private JPasswordField pfNewPassword;
 	private JPasswordField pfRetypePassword;
-	static String password, accountNumber;
+	static Account account;
 	String oldPassword, newPassword, retypePassword;
 	
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args, String _accountNumber) {
+	public static void main(String[] args, Account _account) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					password = BusinessLayerLogin.getInstance().password(_accountNumber);
-					accountNumber = _accountNumber;
+					account = _account;
 					ChangePasswordInAC window = new ChangePasswordInAC();
 					window.ChangePasswordInAC.setVisible(true);
 				} catch (Exception e) {
@@ -130,7 +130,7 @@ public class ChangePasswordInAC {
 				newPassword = pfNewPassword.getText().trim();
 				retypePassword = pfRetypePassword.getText().trim();
 				try {
-					if (!BusinessLayerLogin.getInstance().encrypt(oldPassword).equals(password)) {
+					if (!BusinessLayerLogin.getInstance().encrypt(oldPassword).equals(account.password)) {
 						lblResult.setForeground(Color.red);
 						lblResult.setText("Invalid old password");
 					}
@@ -141,7 +141,7 @@ public class ChangePasswordInAC {
 							lblResult.setText("Invalid retype new password");
 						}
 						else {
-							BusinessLayerLogin.getInstance().changePassword(BusinessLayerLogin.getInstance().creditCardID(accountNumber), newPassword);
+							BusinessLayerLogin.getInstance().changePassword(account.accountNumber, newPassword);
 							lblResult.setForeground(Color.blue);
 							lblResult.setText("Change password successful");
 						}

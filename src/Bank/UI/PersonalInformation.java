@@ -18,18 +18,16 @@ import java.awt.event.MouseEvent;
 public class PersonalInformation {
 
 	private JFrame PersonalInformation;
-	static String accountNumber;
 	static Account account;
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args, String _accountNumber) {
+	public static void main(String[] args, Account _account) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					accountNumber = _accountNumber;
-					account = BusinessLayerLogin.getInstance().getAccount(accountNumber);
+					account = _account;
 					PersonalInformation window = new PersonalInformation();
 					window.PersonalInformation.setVisible(true);
 				} catch (Exception e) {

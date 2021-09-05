@@ -24,16 +24,16 @@ public class ChangePassword {
 	private JLabel lblResult;
 	private JButton btnSave;
 	private JButton btnClose;
-	static int creditCardID;
+	static String accountNumber;
 	String newPassword;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args, int  _creditCardID) {
+	public static void main(String[] args, String _accountNumber) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					creditCardID = _creditCardID;
+					accountNumber = _accountNumber;
 					ChangePassword window = new ChangePassword();
 					window.ChangePassword.setVisible(true);
 				} catch (Exception e) {
@@ -104,7 +104,7 @@ public class ChangePassword {
 				}
 				else {
 					try {
-						BusinessLayerLogin.getInstance().changePassword(creditCardID, newPassword);
+						BusinessLayerLogin.getInstance().changePassword(accountNumber, newPassword);
 						lblResult.setForeground(Color.blue);
 						lblResult.setText("Change password successful");
 					} catch (NoSuchAlgorithmException | SQLException e1) {

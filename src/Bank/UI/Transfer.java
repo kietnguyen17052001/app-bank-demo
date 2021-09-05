@@ -14,6 +14,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import Bank.BusinessLogicLayer.BusinessLayerLogin;
+import Bank.Objects.Account;
 
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -33,21 +34,18 @@ public class Transfer {
 	private JTextField txtAccountNumber;
 	private JTextField txtAmount;
 	private JTextField txtAccountName;
-	static String accountNumber, accountName;
-	static float balance;
+	static Account sender, receiver;
 	String recipientAccountNumber = null, recipientAccountName = null;
 	float amount = 0;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args, String _accountNumber, float _balance) {
+	public static void main(String[] args, Account _sender) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					accountNumber = _accountNumber;
-					accountName = BusinessLayerLogin.getInstance().accountName(_accountNumber);
-					balance = _balance;
+					sender = _sender;
 					Transfer window = new Transfer();
 					window.Transfer.setVisible(true);
 				} catch (Exception e) {
@@ -103,13 +101,13 @@ public class Transfer {
 		lblNewLabel_1.setBounds(10, 41, 39, 35);
 		panelSourceAccount.add(lblNewLabel_1);
 
-		JLabel lblBalance = new JLabel(balance + " vnd");
+		JLabel lblBalance = new JLabel(sender.balance + " vnd");
 		lblBalance.setFont(new Font("Fira Code Medium", Font.PLAIN, 14));
 		lblBalance.setBackground(new Color(255, 250, 250));
 		lblBalance.setBounds(53, 40, 106, 16);
 		panelSourceAccount.add(lblBalance);
 
-		JLabel lblNormalAccount = new JLabel("Normal Account | " + accountNumber);
+		JLabel lblNormalAccount = new JLabel("Normal Account | " + sender.accountNumber);
 		lblNormalAccount.setForeground(new Color(192, 192, 192));
 		lblNormalAccount.setFont(new Font("Fira Code Medium", Font.PLAIN, 13));
 		lblNormalAccount.setBackground(new Color(255, 250, 250));
@@ -250,6 +248,7 @@ public class Transfer {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				Transfer.setVisible(false);
+				UIMain.main(null, sender);
 			}
 		});
 		lblClose.setForeground(new Color(220, 20, 60));
@@ -262,13 +261,13 @@ public class Transfer {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					amount = Float.parseFloat(txtAmount.getText().trim());
-					if(amount > balance) {
+					if(amount > sender.balance) {
 						lblResult.setForeground(Color.red);
 						lblResult.setText("Invalid amount");
 					}
 					else {
-						TransferConfirm.main(null, accountNumber, accountName, balance, recipientAccountNumber,
-								recipientAccountName, amount, comboBox.getSelectedItem().toString(), textArea.getText().trim());
+						receiver = BusinessLayerLogin.getInstance().getAccountByAccountNumber(recipientAccountNumber);
+						TransferConfirm.main(null, sender, receiver, amount, textArea.getText().trim());
 						Transfer.setVisible(false);
 					}
 				}

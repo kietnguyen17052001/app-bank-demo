@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 
 import Bank.BusinessLogicLayer.BusinessLayerLogin;
+import Bank.Objects.Account;
 
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -112,10 +113,11 @@ public class UILogin {
 				username = txtUsername.getText().trim();
 				password_pin = pfPassword.getText().trim();
 				try {
-					if (BusinessLayerLogin.getInstance().checkLogin(username, true, password_pin)) {
+					Account account = BusinessLayerLogin.getInstance().getAccount(username, true, password_pin);
+					if (account != null) { // valid information
 						lbResult.setForeground(Color.blue);
 						lbResult.setText("Login successfully");
-						UIMain.main(null, username, password_pin);
+						UIMain.main(null, account);
 						UILogin.setVisible(false);
 					} else {
 						lbResult.setForeground(Color.red);

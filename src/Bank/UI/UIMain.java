@@ -13,6 +13,8 @@ import java.sql.SQLException;
 
 import javax.swing.JButton;
 import Bank.BusinessLogicLayer.BusinessLayerLogin;
+import Bank.Objects.Account;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -20,21 +22,17 @@ public class UIMain {
 
 	private JFrame UIMain;
 	static String username, password_pin;
-	static String accountNumber, accountName;
-	static float balance;
-
+	static String accountNumber;
+	static Account account;
+	
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args, String _username, String _password_pin) {
+	public static void main(String[] args, Account _account) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					username = _username;
-					password_pin = _password_pin;
-					accountNumber = BusinessLayerLogin.getInstance().accountNumber(username, password_pin);
-					accountName = BusinessLayerLogin.getInstance().accountName(accountNumber);
-					balance = BusinessLayerLogin.getInstance().balance(accountNumber); 
+					account = _account;
 					UIMain window = new UIMain();
 					window.UIMain.setVisible(true);
 				} catch (Exception e) {
@@ -88,7 +86,7 @@ public class UIMain {
 		panelAccount.add(lblAccount);
 
 		JLabel lblBalance = new JLabel("");
-		lblBalance.setText(String.valueOf(balance) + " vnd");
+		lblBalance.setText(String.valueOf(account.balance) + " vnd");
 		lblBalance.setForeground(Color.WHITE);
 		lblBalance.setFont(new Font("Fira Code Medium", Font.PLAIN, 13));
 		lblBalance.setBounds(52, 35, 202, 20);
@@ -114,7 +112,8 @@ public class UIMain {
 		JButton btnTransfer = new JButton("");
 		btnTransfer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Transfer.main(null, accountNumber, balance);
+				Transfer.main(null, account);
+				UIMain.setVisible(false);
 			}
 		});
 		btnTransfer.setIcon(new ImageIcon("D:\\dangkiet@1705\\Source_Kiet\\Java\\Icon\\money.png"));
@@ -125,7 +124,7 @@ public class UIMain {
 		JButton btnTransactionHistory = new JButton("");
 		btnTransactionHistory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TransactionHistory.main(null, accountNumber);
+				TransactionHistory.main(null, account);
 			}
 		});
 		btnTransactionHistory
@@ -137,7 +136,7 @@ public class UIMain {
 		JButton btnAccount = new JButton("");
 		btnAccount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AccountInformation.main(null, accountName, accountNumber);
+				AccountInformation.main(null, account);
 			}
 		});
 		btnAccount.setIcon(new ImageIcon("D:\\dangkiet@1705\\Source_Kiet\\Java\\Icon\\bank-account.png"));

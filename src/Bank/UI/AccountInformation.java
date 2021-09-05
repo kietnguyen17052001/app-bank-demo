@@ -4,6 +4,9 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import Bank.Objects.Account;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Color;
@@ -14,17 +17,15 @@ import java.awt.event.MouseEvent;
 public class AccountInformation {
 
 	private JFrame AccountInformation;
-
+	static Account account;
 	/**
 	 * Launch the application.
 	 */
-	static String accountName, accountNumber;
-	public static void main(String[] args, String _accountName, String _accountNumber) {
+	public static void main(String[] args, Account _account) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					accountName = _accountName;
-					accountNumber = _accountNumber;
+					account = _account;
 					AccountInformation window = new AccountInformation();
 					window.AccountInformation.setVisible(true);
 				} catch (Exception e) {
@@ -67,7 +68,7 @@ public class AccountInformation {
 		PersionalInformation.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				PersonalInformation.main(null, accountNumber);
+				PersonalInformation.main(null, account);
 			}
 		});
 		PersionalInformation.setBackground(new Color(248, 248, 255));
@@ -94,7 +95,7 @@ public class AccountInformation {
 		lblNewLabel_1_1_1.setBounds(326, 11, 32, 28);
 		PersionalInformation.add(lblNewLabel_1_1_1);
 		
-		JLabel lblAccountName = new JLabel(accountName);
+		JLabel lblAccountName = new JLabel(account.accountName);
 		lblAccountName.setFont(new Font("Fira Code Medium", Font.PLAIN, 15));
 		lblAccountName.setBackground(new Color(230, 230, 250));
 		lblAccountName.setBounds(52, 9, 264, 17);
@@ -104,7 +105,7 @@ public class AccountInformation {
 		ChangePassword.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				ChangePasswordInAC.main(null, accountNumber);
+				ChangePasswordInAC.main(null, account);
 			}
 		});
 		ChangePassword.setBackground(new Color(248, 248, 255));
