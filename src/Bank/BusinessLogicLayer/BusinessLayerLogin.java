@@ -57,11 +57,6 @@ public class BusinessLayerLogin {
 		return DataAccessLogin.getInstance().accountNumber(username, phone, userID, creditCardID);
 	}
 
-	// get password
-	public String password(String accountNumber) throws SQLException {
-		return DataAccessLogin.getInstance().password(accountNumber);
-	}
-
 	// change password
 	public void changePassword(String accountNumber, String newPassword) throws SQLException, NoSuchAlgorithmException {
 		DataAccessLogin.getInstance().changePassword(accountNumber, encrypt(newPassword));
