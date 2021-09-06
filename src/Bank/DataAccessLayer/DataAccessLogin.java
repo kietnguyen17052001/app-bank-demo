@@ -81,13 +81,6 @@ public class DataAccessLogin {
 		return rSet.next() ? rSet.getString("AccountNumber") : null;
 	}
 
-	// get password by account number
-	public String password(String accountNumber) throws SQLException {
-		String query = "Select * from Account where AccountNumber = '" + accountNumber + "'";
-		ResultSet rSet = stmt.executeQuery(query);
-		return (rSet.next()) ? rSet.getString("Password") : null;
-	}
-
 	// change password
 	public void changePassword(String accountNumber, String newPassword) throws SQLException {
 		String queryUpdatePassword = "Update Account set Password = '" + newPassword + "' where AccountNumber = '"
